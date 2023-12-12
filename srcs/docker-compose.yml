@@ -1,11 +1,29 @@
-version: '3'
+version: "3"
 
 services:
-  nginx:
-    container_name: nginx
-    build:
-      context: requirements/nginx
-      dockerfile : Dockerfile
-    restart: unless-stopped
-    ports:
-      - "5000:5000"
+    # nginx:
+    #   container_name: nginx
+
+    #   build:
+    #     context: requirements/nginx
+    #     dockerfile: Dockerfile
+
+    #   ports:
+    #   - "5000:5000"
+    #   restart: on-failure
+
+    mariadb:
+      container_name: mariadb
+      env_file:
+        - .env
+
+      build:
+        context: requirements/mariadb
+        dockerfile: Dockerfile
+
+      expose:
+        - "3306"
+      restart: on-failure
+    
+    wordpress:
+      
