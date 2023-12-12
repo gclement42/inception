@@ -8,11 +8,9 @@ RUN apt-get -y update && apt-get -y upgrade \
 RUN mkdir -p /var/www/html/example.com \
     && wget -P /var/www/html/example.com https://wordpress.org/latest.tar.gz
 
-RUN tar -xzf /var/www/html/example.com/latest.tar.gz
+RUN tar -xzf /var/www/html/example.com/latest.tar.gz -C /var/www/html/example.com \
+    && rm -rf /var/www/html/example.com/latest.tar.gz
+
+COPY /conf/wp.php /var/www/html/example.com/wordpress/wp-config-sample.php
 
 ENTRYPOINT [ "bash" ]
-
-
-
-
-
