@@ -1,5 +1,5 @@
-#!/bin/bash
-if [ ! -f "${WP_PATH}/wp-config.php" ]; then
+# Install WP
+if [ ! -d "${WP_PATH}/wp-admin" ]; then
 
   # Download Wordpress
   wp core download --path=$WP_PATH --allow-root
@@ -29,4 +29,4 @@ fi
 
 # Run PHP
 mkdir -p /run/php
-/usr/sbin/php-fpm7.4 -F
+php-fpm7.4 -F
