@@ -1,25 +1,6 @@
-version: "3"
+version: '3'
 
 services:
-    nginx:
-      container_name: nginx
-      networks:
-        - inception
-
-      build:
-        context: requirements/nginx
-        dockerfile: Dockerfile
-
-      volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/nginx:/var/www/html
-        - /nfs/homes/gclement/Desktop/Inception/volumes/nginx:/etc/nginx/conf.d
-
-      ports:
-        - "5000:5000"
-      links:
-        - wordpress
-      restart: on-failure
-
     mariadb:
       container_name: mariadb
       env_file:
@@ -32,13 +13,33 @@ services:
         dockerfile: Dockerfile
 
       volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/db:/var/lib/mysql
+        - /nfs/homes/jrenault/Documents/42/42-Inception/volumes/mariadb:/var/lib/mysql
       expose:
         - "3306"
       restart: unless-stopped
-    
+
+    nginx:
+      container_name: nginx
+      image: nginx
+      networks:
+        - inception
+
+      build:
+        context: requirements/nginx
+        dockerfile: Dockerfile
+
+      volumes:
+        - /nfs/homes/jrenault/Documents/42/42-Inception/volumes/wordpress:/var/www/wordpress
+
+      ports:
+        - "5000:5000"
+      depends_on:
+        - wordpress
+      restart: on-failure
+
     wordpress:
       container_name: wordpress
+      image: wordpress
       networks:
         - inception
       build:
@@ -49,9 +50,11 @@ services:
         - .env
       
       volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/wordpress:/var/www/html
+        - /nfs/homes/jrenault/Documents/42/42-Inception/volumes/wordpress:/var/www/wordpress
       
-      restart: unless-stopped
+      depends_on:
+        - mariadb
+      restart: on-failure
       expose: 
         - "9000"
 
