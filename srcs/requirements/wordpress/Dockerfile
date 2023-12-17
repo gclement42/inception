@@ -2,12 +2,12 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 
-RUN apt install -y wget # Install wget to install wordpress
+RUN apt install -y wget
 
 RUN apt install -y php7.4 \
 			php-fpm \
 			php-mysql \
-			mariadb-client # Install all requirements for PHP
+			mariadb-client
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
