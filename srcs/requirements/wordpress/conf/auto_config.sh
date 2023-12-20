@@ -1,10 +1,10 @@
 # Install WP
-echo "----------------- before if -----------------"
 if [ ! -f "${WP_PATH}/wp-config.php" ]; then
 
-  echo "----------------- if -----------------"
   # # Download Wordpress
-  wp core download --path=$WP_PATH --allow-root
+   >&2 echo Downloading wordpress
+  wp core download --path=$WP_PATH --allow-root \
+   || (>&2 echo Error downloading wordpress; exit 1)
 
   # Config wordpress database
   wp config create --dbname=$SQL_DATABASE \
@@ -14,7 +14,6 @@ if [ ! -f "${WP_PATH}/wp-config.php" ]; then
               --allow-root \
               --path=$WP_PATH
 
-  echo "config create"
 
   # Config wordpress core
   wp core install --url=$WP_URL \
@@ -25,20 +24,14 @@ if [ ! -f "${WP_PATH}/wp-config.php" ]; then
               --allow-root \
               --path=$WP_PATH
 
-  echo "wp core install"
 
   wp user create $WP_USER $WP_USER_EMAIL \
               --allow-root \
               --path=$WP_PATH
 
-  echo "wp user create"
 
 fi
 
-echo "end if"
 # Run PHP
 mkdir -p /run/php
-
-echo "RUN php"
-
 php-fpm7.4 -F

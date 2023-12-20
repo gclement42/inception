@@ -1,4 +1,4 @@
-service mariadbd start;
+service mariadb start;
 
 mysql -u root -p$SQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;" # Create SQL database with env variable name SQL_DATABASE
 mysql -u root -p$SQL_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';" # Create user SQL_USER with password SQL_PASSWORD
@@ -7,4 +7,3 @@ mysql -u root -p$SQL_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED 
 mysql -u root -p$SQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;" # Refresh
 
 mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
-exec mariadbd-safe # Restart MySQL

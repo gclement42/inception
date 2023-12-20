@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
     mariadb:
@@ -58,6 +58,20 @@ services:
       expose: 
         - "9000"
 
+volumes:
+    wordpress:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: /nfs/homes/gclement/Desktop/Inception/volumes/wordpress
+    mariadb:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: /nfs/homes/gclement/Desktop/Inception/volumes/db
+          
 networks:
   inception:
     driver: bridge
