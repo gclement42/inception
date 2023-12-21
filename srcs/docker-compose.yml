@@ -13,7 +13,7 @@ services:
         dockerfile: Dockerfile
 
       volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/db:/var/lib/mysql
+        - /Users/jrenault/data/mariadb:/var/lib/mysql
       expose:
         - "3306"
       restart: unless-stopped
@@ -29,10 +29,10 @@ services:
         dockerfile: Dockerfile
 
       volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/wordpress:/var/www/wordpress
+        - /Users/jrenault/data/wordpress:/var/www/wordpress
 
       ports:
-        - "5000:5000"
+        - "443:443"
       depends_on:
         - wordpress
       restart: on-failure
@@ -50,7 +50,7 @@ services:
         - .env
       
       volumes:
-        - /nfs/homes/gclement/Desktop/Inception/volumes/wordpress:/var/www/wordpress
+        - /Users/jrenault/data/wordpress:/var/www/wordpress
       
       depends_on:
         - mariadb
@@ -64,14 +64,15 @@ volumes:
         driver_opts:
             type: none
             o: bind
-            device: /nfs/homes/gclement/Desktop/Inception/volumes/wordpress
+            device: $WORDPRESS_VOLUME
     mariadb:
         driver: local
         driver_opts:
             type: none
             o: bind
-            device: /nfs/homes/gclement/Desktop/Inception/volumes/db
+            device: $MARIADB_VOLUME
           
 networks:
   inception:
     driver: bridge
+    

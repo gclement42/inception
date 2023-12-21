@@ -13,6 +13,6 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
 
 COPY /conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 5000/tcp
+EXPOSE 443/tcp
 
 CMD ["nginx"]
